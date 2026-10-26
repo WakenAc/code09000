@@ -1,6 +1,8 @@
 // Privacidade, validação e ligações das três páginas (e da 404).
 import { test, expect } from '@playwright/test';
 import { execSync } from 'node:child_process';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 
 const PAGINAS = ['/', '/em-breve/', '/privacidade/'];
 
@@ -37,6 +39,22 @@ test('cabeçalhos de segurança e 404', async ({ request }) => {
   const nada = await request.get('/nao-existe/');
   expect(nada.status()).toBe(404);
   expect(await nada.text()).toContain('Página não encontrada.');
+});
+
+// O GitHub Pages ignora _headers: a CSP e o referrer têm de ir em <meta> em cada página.
+// Lê os ficheiros do disco porque o servidor local também envia a CSP como cabeçalho.
+test('todas as páginas HTML têm a CSP e o referrer em <meta>', () => {
+  const csp = readFileSync('public/_headers', 'utf8')
+    .match(/Content-Security-Policy: (.+)/)[1]
+    .replace(/;\s*frame-ancestors [^;]+/, '')
+    .trim();
+  const paginas = readdirSync('public', { recursive: true }).filter((f) => f.endsWith('.html'));
+  expect(paginas.length).toBeGreaterThanOrEqual(4);
+  for (const f of paginas) {
+    const html = readFileSync(join('public', f), 'utf8');
+    expect(html, f).toContain(`<meta http-equiv="Content-Security-Policy" content="${csp}">`);
+    expect(html, f).toContain('<meta name="referrer" content="strict-origin-when-cross-origin">');
+  }
 });
 
 test('nenhuma página tem erros de CSP ou de consola', async ({ page }) => {

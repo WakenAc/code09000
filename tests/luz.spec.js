@@ -79,40 +79,34 @@ test.describe('telemóvel (toque)', () => {
   const { defaultBrowserType, ...pixel } = devices['Pixel 7'];
   test.use(pixel);
 
-  test('(2) sem toque, a luz deriva e revela o nome inteiro em menos de 3 s', async ({ page }) => {
-    const inicio = Date.now();
+  test('(2) sem toque, a página fica às escuras: nada deriva sozinho', async ({ page }) => {
     await abrir(page);
-    const caixa = await caixaDe(page.locator('.marca svg'));
     expect(await page.evaluate(() => matchMedia('(hover: none), (pointer: coarse)').matches)).toBe(true);
-
-    // Máximo por píxel ao longo do tempo, até aos 3 s desde o pedido da página.
-    let acumulado = null;
-    let capturas = 0;
-    while (Date.now() - inicio < 2900) {
-      const cap = await capturar(page, caixa);
-      capturas++;
-      if (!acumulado) acumulado = cap;
-      else for (let i = 0; i < cap.op.length; i++) acumulado.op[i] = Math.max(acumulado.op[i], cap.op[i]);
+    const nome = await caixaDe(page.locator('#wordmark'));
+    // Ao longo de 3 s, o nome nunca passa dos 5 %.
+    for (let i = 0; i < 6; i++) {
+      expect(maximo(await capturar(page, nome)), `captura ${i}`).toBeLessThanOrEqual(0.05);
+      await page.waitForTimeout(500);
     }
-    const ref = await referencia(page, caixa);
-    const r = revelado(acumulado, ref);
-    expect(capturas).toBeGreaterThan(5);
-    expect(r.fracao, `${r.ok}/${r.letra} píxeis de letra revelados em ${capturas} capturas`).toBeGreaterThanOrEqual(0.995);
-
-    // Nunca está tudo aceso ao mesmo tempo: é mesmo uma luz que passa.
-    const agora = revelado(await capturar(page, caixa), ref);
-    expect(agora.fracao).toBeLessThan(0.9);
   });
 
-  test('o dedo leva a luz e, parado, ela volta a derivar', async ({ page }) => {
+  test('o dedo acende onde toca e, ao largar, a luz fica lá', async ({ page }) => {
     await abrir(page);
-    const vp = page.viewportSize();
-    await page.touchscreen.tap(vp.width / 2, vp.height - 40);
-    await expect.poll(async () => (await luz(page)).y, { timeout: 1000 }).toBeGreaterThan(vp.height - 120);
-    // Depois da espera, a deriva traz a luz de volta para junto do nome.
+    const nome = await caixaDe(page.locator('#wordmark'));
     const logo = await page.locator('.marca svg').boundingBox();
-    await expect.poll(async () => Math.abs((await luz(page)).y - (logo.y + logo.height / 2)), { timeout: 5000 })
-      .toBeLessThan(logo.height);
+    const cx = logo.x + logo.width / 2;
+    const cy = logo.y + logo.height / 2;
+    await page.touchscreen.tap(cx, cy);
+    await expect.poll(async () => luz(page), { timeout: 1000 })
+      .toEqual({ x: expect.closeTo(cx, 0), y: expect.closeTo(cy, 0) });
+
+    const perto = { x: Math.round(cx - 40), y: nome.y, width: 80, height: nome.height };
+    expect(maximo(await capturar(page, perto)), 'nome junto ao dedo').toBeGreaterThanOrEqual(0.98);
+
+    // Largado o dedo, nada se mexe: a luz continua no mesmo sítio.
+    await page.waitForTimeout(2500);
+    expect(await luz(page)).toEqual({ x: expect.closeTo(cx, 0), y: expect.closeTo(cy, 0) });
+    expect(maximo(await capturar(page, perto))).toBeGreaterThanOrEqual(0.98);
   });
 });
 
@@ -123,7 +117,7 @@ for (const [nome, opcoes] of [
   test.describe(`movimento reduzido (${nome})`, () => {
     test.use({ ...opcoes, reducedMotion: 'reduce' });
 
-    test('(3) o nome está a 100 % logo no carregamento, e a luz não deriva', async ({ page }) => {
+    test('(3) o nome está a 100 % logo no carregamento, e a luz não se mexe', async ({ page }) => {
       await abrir(page);
       const caixa = await caixaDe(page.locator('.marca svg'));
       const cap = await capturar(page, caixa);

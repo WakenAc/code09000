@@ -142,16 +142,12 @@ img, svg { display: block; max-width: 100%; height: auto; }
   mask-repeat: no-repeat;
 }
 
-/* Ecrãs táteis: antes de luz.js arrancar, a luz espera no início do nome. */
+/* Ecrãs táteis: como no rato, começa às escuras e a luz segue o dedo (um pouco mais pequena). */
 @media (hover: none), (pointer: coarse) {
-  .palco {
-    --x: calc(50% - var(--lw) * .42 + 28px); /* onde luz.js começa a deriva */
-    --y: var(--ly);
-    --r: 140px;
-  }
+  .palco { --r: 140px; }
 }
 
-/* Sem movimento: luz fixa sobre o nome, mais larga, sem deriva. */
+/* Sem movimento: luz fixa sobre o nome, mais larga. */
 @media (prefers-reduced-motion: reduce) {
   .palco {
     --x: 50%;

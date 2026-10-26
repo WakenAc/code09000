@@ -1,0 +1,24 @@
+{
+  "name": "naptestul-site",
+  "version": "1.0.0",
+  "description": "Site de naptestul.pt — Naptestul, Unipessoal, Lda.",
+  "scripts": {
+    "dev": "node scripts/servidor.mjs",
+    "test": "playwright test",
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "check": "html-validate \"public/**/*.html\" && node scripts/ligacoes.mjs",
+    "fontes": "python scripts/fontes.py",
+    "og": "node scripts/og.mjs"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.64.1",
+    "html-validate": "^11.17.0",
+    "pngjs": "^7.0.0"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  }
+}

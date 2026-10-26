@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title">
+  <title id="title">Naptestul — símbolo</title>
+  <g id="simbolo">
+    <path id="corpo" fill="#F4EFE6" d="M54.12 32.32 L83.27 32.32 L172.73 166.12 L172.73 32.32 L201.88 32.32 L201.88 216.32 L172.73 216.32 L83.27 82.52 L54.12 38.91 Z"/>
+    <path id="fio" fill="#F4EFE6" d="M62.14 62.16 L75.26 81.78 L75.26 156.44 L62.14 156.44 Z"/>
+    <path id="peso" fill="#F4EFE6" d="M59.23 155.94 L78.17 155.94 L78.17 163.73 L59.23 163.73 Z M54.12 163.23 L83.27 163.23 L83.27 183.64 L68.7 223.68 L54.12 183.64 Z"/>
+  </g>
+</svg>

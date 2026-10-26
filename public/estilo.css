@@ -1,0 +1,209 @@
+/* naptestul.pt — estilos comuns às três páginas e à 404. */
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/fontes/manrope.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --fundo: #0B0C10;
+  --branco: #F4EFE6;
+  --cinza: #8E9097;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--fundo);
+  color: var(--branco);
+  font-family: "Manrope", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+}
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible {
+  outline: 2px solid var(--branco);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+img, svg { display: block; max-width: 100%; height: auto; }
+
+.rodape {
+  color: var(--cinza);
+  font-size: .8125rem;
+  line-height: 1.7;
+  text-align: center;
+  padding: 1.5rem 1rem calc(1.25rem + env(safe-area-inset-bottom));
+}
+.rodape p { margin: 0; }
+.rodape a { display: inline-block; padding: .25rem 0; }
+
+/* ---------- Páginas de texto (/em-breve/, /privacidade/, 404) ---------- */
+
+.texto {
+  flex: 1;
+  width: 100%;
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+/* O SVG já inclui a zona livre (½ da altura do N) à volta das letras;
+   160 px fica acima do mínimo de 110 px da marca principal. */
+.texto .marca-topo { display: inline-block; margin: 0 0 1.5rem calc(-160px * 64.5 / 816); }
+.texto .marca-topo img { width: 160px; }
+
+.texto h1 {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  margin: 0 0 1.5rem;
+}
+
+.texto p { margin: 0 0 1.25rem; font-size: 1.0625rem; }
+.texto .secundario { color: var(--cinza); }
+
+/* Lockup «Naptestul · LUZ»: 240 px, acima do mínimo de 160 px. */
+.texto .lockup-luz { width: 240px; margin: .5rem 0 .25rem calc(-240px * 64.5 / 1196); }
+
+.texto .regresso { display: inline-block; margin-top: 1.5rem; padding: .5rem 0; font-weight: 600; }
+
+/* ---------- Página inicial: a marca na meia-luz ---------- */
+
+.inicio {
+  --lw: clamp(220px, 40vw, 48rem);        /* largura do logótipo: 220 px a ~40 % da janela */
+  --ly: calc(46% - 1.875rem);             /* centro vertical do logótipo no palco */
+}
+
+/* Placa de circuito (placa.js): fixa, atrás do conteúdo, decorativa. */
+.placa {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.palco {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 100vh;
+  min-height: max(100dvh, 28rem);
+
+  /* Foco de luz: --x/--y são escritos por luz.js (em px, relativos ao palco). */
+  --x: -100vmax;
+  --y: -100vmax;
+  --r: 160px;
+  --nucleo: 45%;
+  /* Retângulo do peso de latão (preenchido por luz.js); a sua luz em repouso é o alfa da 2.ª camada. */
+  --px: 0px;
+  --py: 0px;
+  --pw: 0px;
+  --ph: 0px;
+
+  -webkit-mask-image:
+    radial-gradient(circle var(--r) at var(--x) var(--y),
+      #000 var(--nucleo), rgba(0, 0, 0, .55) 66%, rgba(0, 0, 0, .16) 85%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)); /* peso de latão em repouso: 0 % */
+  mask-image:
+    radial-gradient(circle var(--r) at var(--x) var(--y),
+      #000 var(--nucleo), rgba(0, 0, 0, .55) 66%, rgba(0, 0, 0, .16) 85%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)); /* peso de latão em repouso: 0 % */
+  -webkit-mask-size: 100% 100%, var(--pw) var(--ph);
+  mask-size: 100% 100%, var(--pw) var(--ph);
+  -webkit-mask-position: 0 0, var(--px) var(--py);
+  mask-position: 0 0, var(--px) var(--py);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Ecrãs táteis: antes de luz.js arrancar, a luz espera no início do nome. */
+@media (hover: none), (pointer: coarse) {
+  .palco {
+    --x: calc(50% - var(--lw) * .42 + 28px); /* onde luz.js começa a deriva */
+    --y: var(--ly);
+    --r: 140px;
+  }
+}
+
+/* Sem movimento: luz fixa sobre o nome, mais larga, sem deriva. */
+@media (prefers-reduced-motion: reduce) {
+  .palco {
+    --x: 50%;
+    --y: var(--ly);
+    --r: calc(var(--lw) * .72);
+    --nucleo: 72%;
+  }
+}
+
+/* Mais contraste (e cores forçadas): sem máscara, tudo a 100 %. */
+@media (prefers-contrast: more), (forced-colors: active) {
+  .placa { display: none; }
+  .palco {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+.centro {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.centro .marca {
+  margin: 0;
+  width: var(--lw);
+  line-height: 0;
+}
+.centro .marca svg { width: 100%; }
+
+.em-breve {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  margin-top: 1rem;
+  padding: 0 .75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+  text-decoration: none;
+}
+.em-breve:hover { text-decoration: underline; }
+
+.inicio .rodape {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

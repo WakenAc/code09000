@@ -1,0 +1,2 @@
+# www → domínio principal (301)
+https://www.naptestul.pt/* https://naptestul.pt/:splat 301

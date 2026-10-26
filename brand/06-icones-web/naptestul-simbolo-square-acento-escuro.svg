@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title">
+  <title id="title">Naptestul — avatar quadrado (acento)</title>
+  <rect width="256" height="256" rx="0" fill="#0B0C10"/>
+  <g transform="translate(48.64 46.08) scale(0.62)">
+  <g id="simbolo">
+    <path id="corpo" fill="#F4EFE6" d="M47.7 24 L81.03 24 L174.97 166.14 L174.97 24 L208.3 24 L208.3 224 L174.97 224 L81.03 81.86 L47.7 31.42 Z"/>
+    <path id="fio" fill="#F4EFE6" d="M52.7 55.31 L76.03 90.62 L76.03 175.3 L52.7 175.3 Z"/>
+    <path id="peso" fill="#C9A45C" d="M47.7 174.8 L81.03 174.8 L81.03 203.13 L64.37 232 L47.7 203.13 Z"/>
+  </g>
+</g>
+</svg>

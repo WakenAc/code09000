@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: html-validate e ligações
+        run: npm run check
+      - name: Playwright
+        run: npm test
+      # O Ubuntu 24.04 restringe (AppArmor) os namespaces de que a sandbox do Chrome precisa;
+      # sem isto o Chrome lançado pelo Lighthouse aborta com "No usable sandbox".
+      - name: Permitir a sandbox do Chrome
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      - name: Lighthouse CI (desktop e mobile)
+        run: npm run lighthouse
+      - name: Relatórios
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorios
+          path: |
+            playwright-report/
+            test-results/
+            .lighthouseci/
+          if-no-files-found: ignore

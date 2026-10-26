@@ -1,0 +1,7 @@
+/* Carregado só sem JavaScript (<noscript>): sem quem mova a luz, ela fica fixa sobre o nome. */
+.palco {
+  --x: 50%;
+  --y: var(--ly);
+  --r: calc(var(--lw) * .72);
+  --nucleo: 72%;
+}

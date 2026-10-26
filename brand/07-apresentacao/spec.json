@@ -1,0 +1,43 @@
+{
+  "brand": "Naptestul",
+  "tagline": "Software e inteligência artificial para pequenas empresas",
+  "brief": "Empresa-mãe da LUZ, o operador de IA com nome e voz que atende o telefone, lê faturas e prepara emails pelo dono do negócio. Tem de parecer uma empresa a quem um eletricista entrega o telefone e um contabilista aceita faturas — nem startup néon, nem banco, nem agência de design. Uso principal: um site quase preto onde o cursor é um foco de luz fraco que revela só o nome e o logótipo.",
+  "adjectives": ["calmo", "preciso", "de confiança", "discretamente técnico"],
+  "criteria": "Critérios: silhueta forte que se reconheça iluminada em parte; funciona a 16 px, a uma cor e invertida; distinto dos N em fita, hexágono e círculo do sector; não ocupa o território de luz da LUZ.",
+  "mockups": ["website", "favicon-tab", "app-icon", "business-card", "signage", "social"],
+  "nav": ["LUZ", "Empresa", "Contacto"],
+  "brand_color": "#0B0C10",
+  "tile_color": "#0B0C10",
+  "greyscale": false,
+  "final": true,
+  "round": 4,
+  "deck_title": "identidade final",
+  "designer": "desenho com o skill logo-design",
+  "concepts": [
+    {
+      "name": "N a prumo",
+      "symbol": "../02-simbolo/naptestul-simbolo-preto.svg",
+      "lockup": "../01-marca-principal/naptestul-marca-preto.svg",
+      "stacked": "../04-empilhado/naptestul-empilhado-preto.svg",
+      "avatar": "../02-simbolo/naptestul-simbolo-pequeno-preto.svg",
+      "symbol_on_tile": "../02-simbolo/naptestul-simbolo-acento-escuro.svg",
+      "lockup_on_dark": "../01-marca-principal/naptestul-marca-acento-escuro.svg",
+      "stacked_on_dark": "../04-empilhado/naptestul-empilhado-acento-escuro.svg",
+      "idea": "A primeira perna do N é um fio-de-prumo: o instrumento de quem mede antes de fazer. «A prumo» é compostura e exatidão — e o símbolo é a própria inicial de «Naptestul».",
+      "rationale": [
+        "Um só gesto: o N da empresa segura o seu próprio prumo",
+        "Peso com a largura exata da haste — a letra mantém o ritmo",
+        "Hastes e ângulo (56°) derivados do tipo de letra Manrope, para que símbolo e wordmark sejam a mesma letra",
+        "Fio a 45 % da haste, ponta a 70° com 4 % de overshoot; corte pequeno para favicon",
+        "Sobre o quase-preto do site, o peso em latão é o único acento — a luz fica para a LUZ"
+      ]
+    }
+  ],
+  "recommendation": "Versão principal: branco quente (#F4EFE6) sobre quase-preto (#0B0C10), com o peso em latão (#C9A45C). Em faturas e documentos: preto (#111111) sobre branco, sem acento. A versão para fundo escuro é ligeiramente mais fina (Manrope 660 em vez de 700), de propósito, para compensar a irradiação. Lockup com o produto: «Naptestul · LUZ», no mesmo corpo e peso.",
+  "next_steps": [
+    "Pesquisa de marca registada (INPI / EUIPO) e por imagem antes de usar em público",
+    "Instalar os ícones web (favicon.ico, favicon.svg, apple-touch-icon, manifest) no site naptestul.pt",
+    "Assinatura de email: marca principal a preto, 180 px de largura, com a zona livre",
+    "Quando a LUZ tiver marca própria, rever o lockup «Naptestul · LUZ» com o novo símbolo"
+  ]
+}
